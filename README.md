@@ -17,6 +17,15 @@ password prompt, or kernel extension.
 > The Finder volume uses rclone's experimental native NFS mount. Keep independent
 > backups of irreplaceable data, as you would with any synchronized folder.
 
+> **Local space is required during imports.** This version uses the local iCloud
+> Drive folder as its backing store. Copying 30 GB into the disk creates local
+> backing files and can also require substantial write-staging space, in addition
+> to any source files already on this Mac. Upload must finish before local
+> eviction is safe; automatic eviction normally also waits for the configured
+> inactivity interval. This is **not a direct-to-cloud uploader** and does not
+> enforce a hard limit on local disk use. Cloud-only metadata browsing works
+> after eviction, but it does not remove the initial import-space requirement.
+
 ## What you get
 
 - A disk named **iCloud Archive**, available in Finder and at `~/iCloud Archive`.
