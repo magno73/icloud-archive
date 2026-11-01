@@ -1,0 +1,23 @@
+name: macOS checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Swift version
+        run: swift --version
+      - name: Deterministic tests
+        run: swift test --disable-xctest
+      - name: Build native app and CLI
+        run: swift build -c release
+      - name: CLI metadata-only smoke check
+        run: |
+          "$(swift build -c release --show-bin-path)/icloud-archive" --help
+          temp_dir=$(mktemp -d)
+          printf 'CI fixture\n' > "$temp_dir/example.txt"
+          "$(swift build -c release --show-bin-path)/icloud-archive" list --root "$temp_dir" --json

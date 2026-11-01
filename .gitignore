@@ -1,0 +1,12 @@
+.build/
+.swiftpm/
+dist/
+*.xcodeproj/
+.DS_Store
+*.log
+*.dmg
+*.zip
+.env
+*.p12
+*.mobileprovision
+verification-local/
