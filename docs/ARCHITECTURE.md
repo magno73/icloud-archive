@@ -1,8 +1,8 @@
 # Architecture and invariants
 
 This document describes the implemented native-iCloud-Drive backend. The
-[cloud-only design investigation](CLOUD-ONLY-DESIGN.md) proposes a different
-backend to address local import space and native sync independence. It is not
+[direct archive design](DIRECT-ARCHIVE-DESIGN.md) proposes a different backend
+and account boundary to address import space and native sync independence. It is not
 implemented; do not infer those capabilities from the existing verification.
 
 ## Boundaries

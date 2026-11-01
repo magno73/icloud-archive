@@ -26,11 +26,11 @@ password prompt, or kernel extension.
 > enforce a hard limit on local disk use. Cloud-only metadata browsing works
 > after eviction, but it does not remove the initial import-space requirement.
 
-For the stricter requirement of bounded import space while ordinary iCloud Drive
-stays enabled, see the [cloud-only storage investigation](docs/CLOUD-ONLY-DESIGN.md).
-It explains why folder exclusion does not solve this and proposes a separate
-CloudKit archive. **That replacement is not implemented** and would change
-compatibility with ordinary iCloud Drive files and iPhone access.
+For bounded import space and isolation from other devices' ordinary iCloud Drive,
+see the [direct archive design](docs/DIRECT-ARCHIVE-DESIGN.md). It proposes direct
+uploads to a dedicated Apple Account, potentially using shared iCloud+ capacity,
+without CloudKit provisioning. **That replacement is not implemented**. The
+earlier [CloudKit investigation](docs/CLOUD-ONLY-DESIGN.md) is superseded.
 
 ## What you get
 

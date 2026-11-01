@@ -1,6 +1,10 @@
 # Cloud-only storage: investigation and proposed replacement
 
-Status: **proposal, not implemented**. Reviewed on 2026-11-01. Version 0.1 still
+Status: **superseded; CloudKit approach rejected, not implemented**. See the
+[direct archive design](DIRECT-ARCHIVE-DESIGN.md) for the revised recommendation
+without developer provisioning and with isolation from other devices' accounts.
+The remaining text records the earlier technical investigation, not the current
+product direction. Reviewed on 2026-11-01. Version 0.1 still
 uses a local iCloud Drive backing directory and requires local import space.
 Its successful eviction tests do not validate the architecture proposed here.
 
@@ -16,7 +20,7 @@ folder on the server, but never let native sync download its content.” Excludi
 an item from sync has the opposite meaning. A direct uploader alone cannot impose
 a cache policy on Apple's independent iCloud Drive service.
 
-The recommended architecture is an **app-managed CloudKit private database**,
+The earlier recommendation was an **app-managed CloudKit private database**,
 with a separate virtual filesystem and bounded transfer/cache storage. This
 changes an earlier product requirement: the archive would no longer consist of
 ordinary iCloud Drive files. That tradeoff needs agreement before implementation
