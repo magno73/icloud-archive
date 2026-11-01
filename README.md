@@ -76,6 +76,9 @@ request to access your archive. The app waits for this consent before mounting.
    select files in the app and use **Free local space** immediately.
 5. Names, dates and logical sizes remain. Open a file to download/use it again.
 
+For direct access, choose **File > Add to Sidebar** while the archive window is
+open in Finder. macOS may otherwise group this local NFS volume under `localhost`.
+
 ```sh
 ls -lh "$HOME/iCloud Archive"             # metadata only
 stat "$HOME/iCloud Archive/video.mov"    # metadata only
@@ -200,6 +203,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for code and review conventions.
 - This is an NFS network filesystem, not a File Provider domain or block device.
   Some applications require stronger local filesystem semantics. Edit a local
   copy for software that does not support network volumes.
+- Some clients request NFS exclusive creation, which the helper does not support.
+  The tested macOS client retried successfully, but creating a file this way can
+  pause before completing.
 - Keep files closed before expecting automatic release. Filesystem access times
   can be affected by other readers; this can delay eviction. Content reads
   satisfied from the kernel cache may not cause a fresh backing-file access;

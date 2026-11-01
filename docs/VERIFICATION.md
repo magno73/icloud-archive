@@ -61,9 +61,34 @@ an explanation while waiting. The old test mount was ejected normally.
 
 The settings window was verified with automatic eviction enabled and a 24-hour
 interval. Native **Open at login** was enabled and its switch confirmed on.
-Full packaged-app interaction after granting iCloud access and Finder window
-automation still need an interactive user check. Automated CI cannot validate these OS
-prompts or grant access to an Apple account.
+
+After the user granted iCloud Drive and Finder automation permissions, the
+installed app completed the following interactive checks:
+
+1. The volume mounted and the app showed **Connected**.
+2. A new **1,056,768-byte** synthetic fixture was written through the mounted
+   volume; the app showed its size and confirmed **On Mac + iCloud**.
+3. **Free local space** initially retained the file while the write cache was
+   still populated. After the cache emptied, the same action succeeded and the
+   app showed **Cloud only**, the original size, and **zero local bytes**.
+4. Twenty mounted listing/stat operations left the placeholder unhydrated.
+5. The app's **Download** action hydrated it. A mounted read matched the original
+   SHA-256.
+6. The **Finder** button opened the archive in List view with no preview pane.
+   The archive was added to Finder's sidebar for direct access.
+7. After another native eviction, selecting the file in Finder displayed its
+   name, date, and size while its backing allocation remained **zero**. Opening
+   and reading the mounted placeholder then hydrated matching contents again.
+
+Both synthetic cloud fixtures were removed after verification. No existing user
+files were modified. GitHub's macOS workflow also passed compilation, all 18
+tests, and the CLI metadata smoke check. Automated CI itself cannot validate OS
+privacy prompts or access an Apple account.
+
+One transport limitation was observed: the helper reported an unsupported NFS
+exclusive-create request, after which the macOS client retried and completed the
+write. Such creation requests can pause before succeeding; the supported normal
+write/read checks completed with correct contents.
 
 ## Not yet established
 
