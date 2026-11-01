@@ -221,10 +221,16 @@ struct ArchiveStoreTests {
         let root = try makeFixture(); defer { try? FileManager.default.removeItem(at: root) }
         let fake = FakeFileSystem([uploadedFile()])
         let store = ArchiveStore(root: root, fileSystem: fake, persistActivity: false)
+        _ = try await store.snapshot("video.mov")
+        let initial = try #require(await store.lastUse("video.mov"))
+        // Separate first discovery from the open-handle observation, so this
+        // regression test cannot pass merely because discovery grants grace.
+        try await Task.sleep(for: .milliseconds(20))
         let before = Date()
         _ = await store.evict(["video.mov"], idleInterval: nil, pendingWrites: false,
                               openCheck: { _, _ in .open })
         let lastUse = try #require(await store.lastUse("video.mov"))
+        #expect(lastUse > initial)
         #expect(lastUse >= before)
         let result = await store.evict(["video.mov"], idleInterval: 86400, pendingWrites: false,
                                        openCheck: { _, _ in .closed })
